@@ -1,6 +1,6 @@
-# Python: Getting Started
+# Mail Room Server
 
-A barebones Django app, which can easily be deployed to Heroku.
+A Heroku server that can read the information off of a package label and send out an email to the package's owner notifying them that it has arrived.
 
 This application supports the [Getting Started with Python on Heroku](https://devcenter.heroku.com/articles/getting-started-with-python) article - check it out.
 
