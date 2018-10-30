@@ -3,6 +3,10 @@
 
       {% if saved %}
          <strong>Your profile was saved.</strong>
+         <br>
+         Emails extracted: {{matched_emails}}
+         <br>
+         Names failed: {{unmatched_names}}
       {% endif %}
 
       {% if not saved %}

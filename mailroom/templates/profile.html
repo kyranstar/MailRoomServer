@@ -4,20 +4,21 @@
       <form name = "form" enctype = "multipart/form-data"
          action = "{% url 'saved' %}" method = "POST" >{% csrf_token %}
 
-         <textarea name="name" style="width:250px;height:150px;"></textarea>
-         <!--<div style = "max-width:470px;">
-            <center>
-               <input type = "text" style = "margin-left:20%;"
-               placeholder = "Name" name = "name" />
-            </center>
-         </div>
+         <strong>Names (Comma seperated):<br></strong>
+         <textarea name="name" style="width:470px;height:350px;"></textarea>
 
-         <br>-->
-
+         <strong><br>Images of names:</strong>
          <div style = "max-width:470px;">
             <center>
-               <input type = "file" multiple="true" style = "margin-left:20%;"
+               <input type = "file" multiple="true"
                   placeholder = "Image upload" name = "file_field" />
+            </center>
+         </div>
+         <strong><br>CSV of names to emails:</strong>
+         <div style = "max-width:470px;">
+            <center>
+               <input type = "file"
+                  placeholder = "Image upload" name = "emails_file" />
             </center>
          </div>
 
@@ -25,9 +26,8 @@
 
          <div style = "max-width:470px;">
             <center>
-
                <button style = "border:0px;background-color:#4285F4; margin-top:8%;
-                  height:35px; width:80%; margin-left:19%;" type = "submit" value = "Login" >
+                  height:35px;" type = "submit" value = "Login" >
                   <strong>Submit</strong>
                </button>
 

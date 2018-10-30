@@ -23,7 +23,7 @@ class SaveProfileView(View):
 
         if MyProfileForm.is_valid():
             #profile.save()
-            MyProfileForm.process_data(MyProfileForm.cleaned_data["name"], request.FILES.getlist('file_field'))
+            (matched_emails, unmatched_names, unmatched_images) = MyProfileForm.extract_emails(MyProfileForm.cleaned_data["name"], request.FILES.getlist('file_field'), request.FILES.getlist('emails_file'))
             saved = True
 
         return render(request, self.template_name, locals())
