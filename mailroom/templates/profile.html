@@ -4,19 +4,20 @@
       <form name = "form" enctype = "multipart/form-data"
          action = "{% url 'saved' %}" method = "POST" >{% csrf_token %}
 
-         <div style = "max-width:470px;">
+         <textarea name="name" style="width:250px;height:150px;"></textarea>
+         <!--<div style = "max-width:470px;">
             <center>
                <input type = "text" style = "margin-left:20%;"
                placeholder = "Name" name = "name" />
             </center>
          </div>
 
-         <br>
+         <br>-->
 
          <div style = "max-width:470px;">
             <center>
-               <input type = "file" style = "margin-left:20%;"
-                  placeholder = "Picture" name = "file_field" />
+               <input type = "file" multiple="true" style = "margin-left:20%;"
+                  placeholder = "Image upload" name = "file_field" />
             </center>
          </div>
 
