@@ -6,9 +6,9 @@ from django.views import View
 from .forms import ProfileForm
 #from .models import Profile
 
-class SaveProfileView(View):
+class UploadDataView(View):
     form_class = ProfileForm
-    template_name = 'saved.html'
+    template_name = 'uploaded.html'
 
 
     def get(self, request):
