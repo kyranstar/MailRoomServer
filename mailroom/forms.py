@@ -8,17 +8,17 @@ class ProfileForm(Form):
    file_field = FileField(widget=ClearableFileInput(attrs={'multiple': True}), required=False)
    emails_field = FileField(widget=ClearableFileInput(), required=False)
 
-   def extract_emails(self, namesfield, files, email_field):
+   def extract_emails(namesfield, files, email_field):
        """
        Saves email_field to the database,  parses images in files for names,
        and then creates a list of emails from all the names in namesfield and the parsed names.
 
        Arguments:
-        namesfield (:obj:`list` of :obj:`str`):
-            List of names to email
+        namesfield (`str`):
+            Field of comma seperated names to email
         files (:obj:`list` of :obj:`UploadedFile`):
-        email_field (:obj:`UploadedFile`, optional):
-            An optional csv file with name to email mappings.
+        email_field (:obj:`list` of `UploadedFile`):
+            An empty list or a list of a csv file with name to email mappings.
         Returns:
             (matched_emails_data, unmatched_names, unmatched_images) where
             matched_emails are a list of EmailData associated with names in namesfield
@@ -28,10 +28,10 @@ class ProfileForm(Form):
        """
        # If we recievd an email_field, save it to database
        if(len(email_field) > 0):
-           self.save_email_file(email_field[0])
+           ProfileForm.save_email_file(email_field[0])
 
        # Load email mapping from database. TODO: If no emails, give an error
-       emails = self.load_email_file()
+       emails = ProfileForm.load_email_file()
 
        # Clean given names
        names = map(lambda x: x.strip().lower(), namesfield.split(","))
@@ -45,13 +45,13 @@ class ProfileForm(Form):
        unmatched_names = list(filter(lambda name: not name in matched_names, names))
 
        # Parse imageas for matching emails
-       (matched_img_emails, unmatched_images) = self.match_images_emails(emails, files)
+       (matched_img_emails, unmatched_images) = ProfileForm.match_images_emails(emails, files)
 
        matched_emails = [EmailData(name, emails[name], curr_date) for name in matched_names] + matched_img_emails
 
        return (matched_emails, unmatched_names, unmatched_images)
 
-   def match_images_emails(self, emails, image_files):
+   def match_images_emails(emails, image_files):
        """
        Takes a list of uploaded files, and for each image, tries to extract the name written in the image, and gets its associated email.
        Arguments:
@@ -64,7 +64,7 @@ class ProfileForm(Form):
        # TODO: implement
        return ([], image_files)
 
-   def save_email_file(self, email_file):
+   def save_email_file(email_file):
        """
        Given a csv file with columns 'Name' and 'Email', saves this mapping to the EmailEntry database.
        Arguments:
@@ -84,11 +84,18 @@ class ProfileForm(Form):
                # if the're a problem anywhere, you wanna know about it TODO better error logging
                print("there was a problem with line: " + str(line))
 
-   def load_email_file(self):
+   def load_email_file():
        """
        Loads names and emails from the database and creates a dict.
        """
        return {entry.name: entry.email for entry in EmailEntry.objects.all()}
+
+class SubmitForm(Form):
+    name = CharField(max_length = 500)
+
+    def send_emails(self, emails, template):
+        print("SENDING EMAILS: " + str(emails))
+        pass
 
 class EmailEntry(models.Model):
     """

@@ -1,16 +1,23 @@
 <html>
    <body>
 
-      {% if success %}
-         <strong>Success!</strong>
-         <br>
-         Emails sent to: {{matched_emails}}
-         <br>
-      {% endif %}
+     {% if user.is_authenticated %}
+     {% if success %}
+        <strong>Success!</strong>
+        <br>
+        Emails sent to: {{matched_emails}}
+        <br>
+        Failed on: {{unmatched_names}}
+        <br>
+     {% endif %}
 
-      {% if not success %}
-         <strong>Failure: {{error_msg}}</strong>
-      {% endif %}
-
+     {% if not success %}
+        <strong>Failure: {{error_msg}}</strong>
+     {% endif %}
+  <p><a href="{% url 'logout' %}">logout</a></p>
+{% else %}
+  <p>You are not logged in</p>
+  <a href="{% url 'login' %}">login</a>
+{% endif %}
    </body>
 </html>

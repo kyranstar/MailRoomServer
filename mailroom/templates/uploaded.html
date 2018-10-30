@@ -1,17 +1,39 @@
 <html>
    <body>
+     {% if user.is_authenticated %}
+     {% if saved %}
+        <strong>Found matching emails for names in the text area. Add any additional names to email.</strong>
+        <br>
+        Emails extracted: {{matched_emails}}
+        <br>
+        <form name = "form" enctype = "multipart/form-data"
+           action = "{% url 'submitted' %}" method = "POST" >{% csrf_token %}
 
-      {% if saved %}
-         <strong>Your profile was saved.</strong>
-         <br>
-         Emails extracted: {{matched_emails}}
-         <br>
-         Names failed: {{unmatched_names}}
-      {% endif %}
+           <strong>Names (Comma seperated):<br></strong>
+           <textarea name="name" style="width:100%;height:350px;">{{matched_names}}</textarea>
 
-      {% if not saved %}
-         <strong>Your profile was not saved.</strong>
-      {% endif %}
 
+           <strong>Names failed:</strong> {{unmatched_names}}
+           <br>
+
+           <div style = "">
+              <center>
+                 <button style = "border:0px;background-color:#4285F4;margin-top:1%;
+                    height:35px;" type = "submit" value = "Login" >
+                    <strong>Submit</strong>
+                 </button>
+
+              </center>
+        </form>
+     {% endif %}
+
+     {% if not saved %}
+        <strong>There was an error.</strong>
+     {% endif %}
+     <p><a href="{% url 'logout' %}">logout</a></p>
+     {% else %}
+       <p>You are not logged in</p>
+       <a href="{% url 'login' %}">login</a>
+     {% endif %}
    </body>
 </html>
