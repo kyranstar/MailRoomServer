@@ -1,9 +1,9 @@
 <html>
    <body>
      {% if user.is_authenticated %}
-  Hi {{ user.username }}!
   <div class="column full display">
             <h1>Baker Mailroom email server</h1>
+            <strong>User {{ user.username }} is logged in.</strong>
             <p>This application is for sending emails to recipients of packages.&nbsp;</p><p>To begin, type comma separated full names into the names field and/or upload images taken of names on packages.</p><p>If there is no name-to-email file uploaded, upload a CSV file with the columns "Name" and "Email" to the third upload box.</p>
    </div>
    <div class="column full">

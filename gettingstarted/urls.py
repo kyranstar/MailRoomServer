@@ -16,7 +16,7 @@ from mailroom.views import UploadDataView, SendEmailsView
 # Learn more here: https://docs.djangoproject.com/en/2.1/topics/http/urls/
 
 urlpatterns = [
-    path('', TemplateView.as_view(template_name = 'profile.html')),
+    path('', TemplateView.as_view(template_name = 'profile.html'), name = 'profile'),
     path('uploaded/', UploadDataView.as_view(), name = 'uploaded'),
     path('submitted/', SendEmailsView.as_view(), name = 'submitted'),
     path("admin/", admin.site.urls),

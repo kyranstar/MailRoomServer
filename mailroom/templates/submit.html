@@ -9,10 +9,12 @@
         <br>
         Failed on: {{unmatched_names}}
         <br>
+        <p><a href="{% url 'profile' %}">Submit More</a></p>
      {% endif %}
 
      {% if not success %}
         <strong>Failure: {{error_msg}}</strong>
+        <p><a href="{% url 'profile' %}">Try Again</a></p>
      {% endif %}
   <p><a href="{% url 'logout' %}">logout</a></p>
 {% else %}

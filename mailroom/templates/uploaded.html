@@ -29,6 +29,7 @@
 
      {% if not saved %}
         <strong>There was an error.</strong>
+        <p><a href="{% url 'profile' %}">Try Again</a></p>
      {% endif %}
      <p><a href="{% url 'logout' %}">logout</a></p>
      {% else %}
