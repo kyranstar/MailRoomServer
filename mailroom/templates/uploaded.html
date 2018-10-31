@@ -1,4 +1,9 @@
 <html>
+<head>
+  {% load static %}
+  <link rel="stylesheet" type="text/css" href="{% static 'mailroom/style.css' %}">
+</head>
+{% include 'header.html' %}
    <body>
      {% if user.is_authenticated %}
      {% if saved %}
@@ -31,10 +36,8 @@
         <strong>There was an error.</strong>
         <p><a href="{% url 'profile' %}">Try Again</a></p>
      {% endif %}
-     <p><a href="{% url 'logout' %}">logout</a></p>
      {% else %}
-       <p>You are not logged in</p>
-       <a href="{% url 'login' %}">login</a>
+       <p>You are not logged in.</p>
      {% endif %}
    </body>
 </html>
