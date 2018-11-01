@@ -44,7 +44,7 @@ class SendEmailsView(View):
         if submit_form.is_valid():
             success = True
             (matched_emails, unmatched_names, unmatched_images) = ProfileForm.extract_emails(submit_form.cleaned_data['name'],  [], [])
-            submit_form.send_emails(matched_emails, "hi %name%,\n email to %email% on date %date%") # TODO load template
+            submit_form.send_emails(matched_emails, "hi %name%,\n email to %email% on date %date%", "subj", {}) # TODO load template
         # TODO load error_msg
         error_msg = "some error"
 

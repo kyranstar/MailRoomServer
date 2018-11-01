@@ -95,6 +95,13 @@ AUTH_PASSWORD_VALIDATORS = [
     {"NAME": "django.contrib.auth.password_validation.NumericPasswordValidator"},
 ]
 
+# Sendgrid email
+EMAIL_HOST = 'smtp.sendgrid.net'
+SENDGRID_EMAIL_HOST = "smtp.sendgrid.net"
+SENDGRID_EMAIL_PORT = 587
+EMAIL_HOST_USER = os.environ['SENDGRID_USERNAME']
+EMAIL_HOST_PASSWORD = os.environ['SENDGRID_PASSWORD']
+EMAIL_USE_TLS = True
 
 # Internationalization
 # https://docs.djangoproject.com/en/2.0/topics/i18n/

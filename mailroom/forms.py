@@ -2,6 +2,7 @@ from django.forms import CharField, Form, FileField, ClearableFileInput
 from django.db import models
 import csv
 import datetime
+from django.core.mail import send_mail
 
 class ProfileForm(Form):
    name = CharField(max_length = 500, required=False)
@@ -93,9 +94,28 @@ class ProfileForm(Form):
 class SubmitForm(Form):
     name = CharField(max_length = 500)
 
-    def send_emails(self, emails, template):
+    def send_emails(self, emails, template, subject, substitutions):
         print("SENDING EMAILS: " + str(emails))
-        pass
+        email_strs = list(map(lambda emdata: emdata.email, emails))
+        send_mail(
+            subject='Subject here',
+            message='Here is the message.',
+            from_email='from@example.com',
+            recipient_list=email_strs,
+            fail_silently=False,
+        )
+        #sg = sendgrid.SendGridClient(SENDGRID_API_KEY)
+        #message = sendgrid.Mail()
+        #for email in emails:
+    #        message.add_to('To_Email')
+    #        message.set_from('User_Name')
+    #    message.set_subject(subject)
+    #    message.set_html(template)
+    #    sg.send(message)
+        # TODO substitions
+        #email = SendGridEmailMessage(subject, template, 'kyran.park.adams@gmail.com', emails)
+        #email.send()
+
 
 class EmailEntry(models.Model):
     """
