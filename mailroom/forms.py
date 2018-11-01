@@ -2,7 +2,8 @@ from django.forms import CharField, Form, FileField, ClearableFileInput
 from django.db import models
 import csv
 import datetime
-from django.core.mail import send_mail
+from django.core.mail import EmailMultiAlternatives
+from django.utils.html import strip_tags
 
 class ProfileForm(Form):
    name = CharField(max_length = 500, required=False)
@@ -94,27 +95,14 @@ class ProfileForm(Form):
 class SubmitForm(Form):
     name = CharField(max_length = 500)
 
-    def send_emails(self, emails, template, subject, substitutions):
+    def send_emails(self, emails, template, subject):
         print("SENDING EMAILS: " + str(emails))
-        email_strs = list(map(lambda emdata: emdata.email, emails))
-        send_mail(
-            subject='Subject here',
-            message='Here is the message.',
-            from_email='from@example.com',
-            recipient_list=email_strs,
-            fail_silently=False,
-        )
-        #sg = sendgrid.SendGridClient(SENDGRID_API_KEY)
-        #message = sendgrid.Mail()
-        #for email in emails:
-    #        message.add_to('To_Email')
-    #        message.set_from('User_Name')
-    #    message.set_subject(subject)
-    #    message.set_html(template)
-    #    sg.send(message)
-        # TODO substitions
-        #email = SendGridEmailMessage(subject, template, 'kyran.park.adams@gmail.com', emails)
-        #email.send()
+        for emaildata in emails:
+            html_content = emaildata.substitute(template)
+            text_content = strip_tags(html_content)
+            msg = EmailMultiAlternatives(subject, text_content, 'baker-mail-room@example.com', [emaildata.email])
+            msg.attach_alternative(html_content, "text/html")
+            msg.send()
 
 
 class EmailEntry(models.Model):
@@ -136,6 +124,13 @@ class EmailData:
         self.name = name
         self.email = email
         self.date = date
+
+    def substitute(self, template):
+        template = template.replace("%name%", self.name)
+        template = template.replace("%email%", self.email)
+        template = self.date.strftime(template)
+        print(template)
+        return template
     def __str__(self):
         return "{Name: %s, Email: %s, Date: %s}" % (self.name, self.email, str(self.date))
     def __repr__ (self):
