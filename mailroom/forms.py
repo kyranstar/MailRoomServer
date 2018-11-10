@@ -1,4 +1,4 @@
-from django.forms import CharField, Form, FileField, ClearableFileInput
+from django.forms import CharField, Form, FileField, ClearableFileInput, ChoiceField, ModelChoiceField
 from django.db import models
 import csv
 import datetime
@@ -94,15 +94,37 @@ class ProfileForm(Form):
 
 class SubmitForm(Form):
     name = CharField(max_length = 500)
+    selected_template = ModelChoiceField(queryset=None, required=False)
 
-    def send_emails(self, emails, template, subject):
-        print("SENDING EMAILS: " + str(emails))
+    def __init__(self, *args, **kwargs):
+       super(SubmitForm, self).__init__(*args, **kwargs)
+       self.fields['selected_template'].queryset = EmailTemplate.objects.all()
+
+    def send_emails(self, emails, template):
         for emaildata in emails:
-            html_content = emaildata.substitute(template)
+            substituted = emaildata.substitute(template)
+            html_content = substituted.body
             text_content = strip_tags(html_content)
-            msg = EmailMultiAlternatives(subject, text_content, 'baker-mail-room@example.com', [emaildata.email])
+            msg = EmailMultiAlternatives(substituted.subject, text_content, 'baker-mail-room@example.com', [emaildata.email])
             msg.attach_alternative(html_content, "text/html")
             msg.send()
+
+class CreateTemplateForm(Form):
+    name = models.CharField(max_length=100)
+    subject = models.CharField(max_length=100)
+    body = models.CharField(max_length=1000)
+
+    def save_template(name, subject, body):
+        EmailTemplate(name=name, subject=subject, body=body).save()
+        print(EmailTemplate.objects.all())
+
+class EmailTemplate(models.Model):
+    """
+    A model representing an email template.
+    """
+    name = models.CharField(max_length=100)
+    subject = models.CharField(max_length=100)
+    body = models.CharField(max_length=1000)
 
 
 class EmailEntry(models.Model):
@@ -126,9 +148,12 @@ class EmailData:
         self.date = date
 
     def substitute(self, template):
-        template = template.replace("%name%", self.name)
-        template = template.replace("%email%", self.email)
-        template = self.date.strftime(template)
+        template.subject = template.subject.replace("%name%", self.name)
+        template.subject = template.subject.replace("%email%", self.email)
+        template.subject = self.date.strftime(template.subject)
+        template.body = template.body.replace("%name%", self.name)
+        template.body = template.body.replace("%email%", self.email)
+        template.body = self.date.strftime(template.body)
         print(template)
         return template
     def __str__(self):

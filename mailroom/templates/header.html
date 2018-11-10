@@ -4,6 +4,7 @@
     {% if user.is_authenticated %}
     <a style="" href="page.html" class="inactiveLink">{{ user.username }}, you are logged in.</a>
     {% endif %}
+    <a class="active" href="{% url 'create_template' %}">Create Template</a>
     <a class="active" href="{% url 'profile' %}">Home</a>
     {% if user.is_authenticated %}
     <a href="{% url 'logout' %}">Log out</a>

@@ -2,27 +2,28 @@
 <head>
   {% load static %}
   <link rel="stylesheet" type="text/css" href="{% static 'mailroom/style.css' %}">
-  </head>
-  {% include 'header.html' %}
-   <body>
+</head>
+{% include 'header.html' %}
 
-     {% if user.is_authenticated %}
-     {% if success %}
-        <strong>Success!</strong>
-        <br>
-        Emails sent to: {{matched_emails}}
-        <br>
-        Failed on: {{unmatched_names}}
-        <br>
-        <p><a href="{% url 'profile' %}">Submit More</a></p>
-     {% endif %}
+<body>
 
-     {% if not success %}
-        <strong>Failure: {{error_msg}}</strong>
-        <p><a href="{% url 'profile' %}">Try Again</a></p>
-     {% endif %}
-{% else %}
+  {% if user.is_authenticated %}
+  {% if success %}
+  <strong>Success!</strong>
+  <br>
+  Emails sent to: {{matched_emails}}
+  <br>
+  Failed on: {{unmatched_names}}
+  <br>
+  <p><a href="{% url 'profile' %}">Submit More</a></p>
+  {% endif %}
+
+  {% if not success %}
+  <strong>Failure: {{error_msg}}</strong>
+  <p><a href="{% url 'profile' %}">Try Again</a></p>
+  {% endif %}
+  {% else %}
   <p>You are not logged in.</p>
-{% endif %}
-   </body>
+  {% endif %}
+</body>
 </html>

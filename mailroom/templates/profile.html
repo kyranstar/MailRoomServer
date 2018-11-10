@@ -1,57 +1,60 @@
 <html>
-  <head>
-    {% load static %}
-    <link rel="stylesheet" type="text/css" href="{% static 'mailroom/style.css' %}">
-  </head>
-  {% include 'header.html' %}
-   <body>
-     {% if user.is_authenticated %}
+
+<head>
+  {% load static %}
+  <link rel="stylesheet" type="text/css" href="{% static 'mailroom/style.css' %}">
+</head>
+{% include 'header.html' %}
+
+<body>
+  {% if user.is_authenticated %}
   <div class="column full display">
-            <p>This application is for sending emails to recipients of packages.&nbsp;</p><p>To begin, type comma separated full names into the names field and/or upload images taken of names on packages.</p><p>If there is no name-to-email file uploaded, upload a CSV file with the columns "Name" and "Email" to the third upload box.</p>
-   </div>
-   <div class="column full">
-         <hr>
-   </div>
-
-   <form name = "form" enctype = "multipart/form-data"
-      action = "{% url 'uploaded' %}" method = "POST" >{% csrf_token %}
-
-      <strong>Names (Comma seperated):<br></strong>
-      <textarea name="name" style="width:100%;height:350px;"></textarea>
-
-      <div style = "">
-         <center>
-           <strong><br>Images of names:</strong>
-            <input type = "file" multiple="true"
-               placeholder = "Image upload" name = "file_field" />
-         </center>
-      </div>
-      <div style = "">
-         <center>
-           <strong><br>CSV of names to emails:</strong>
-            <input type = "file"
-               placeholder = "Image upload" name = "emails_file" />
-         </center>
-      </div>
-
-      <div style = "">
-         <center>
-            <button style = "border:0px;background-color:#4285F4;margin-top:1%;
-               height:35px;" type = "submit" value = "Login" >
-               <strong>Submit</strong>
-            </button>
-
-         </center>
-   </form>
- </div>
- <div class="column full">
+    <p>This application is for sending emails to recipients of packages.&nbsp;</p>
+    <p>To begin, type comma separated full names into the names field and/or upload images taken of names on packages.</p>
+    <p>If there is no name-to-email file uploaded, upload a CSV file with the columns "Name" and "Email" to the third upload box.</p>
+  </div>
+  <div class="column full">
     <hr>
-</div>
-<div class="column full">
-     <p>Created by Kyran Adams and Alex Bluestein, 2018.&nbsp;</p> <a href="https://github.com/kyranstar/MailRoomServer">Github repository here.</a>
-</div>
-    {% else %}
-      <p>You are not logged in.</p>
-    {% endif %}
-   </body>
+  </div>
+
+  <form name="form" enctype="multipart/form-data" action="{% url 'uploaded' %}" method="POST">{% csrf_token %}
+
+    <strong>Names (Comma seperated):<br></strong>
+    <textarea name="name" style="width:100%;height:350px;"></textarea>
+
+    <div style="">
+      <center>
+        <strong><br>Images of names:</strong>
+        <input type="file" multiple="true" placeholder="Image upload" name="file_field" />
+      </center>
+    </div>
+    <div style="">
+      <center>
+        <strong><br>CSV of names to emails:</strong>
+        <input type="file" placeholder="Image upload" name="emails_file" />
+      </center>
+    </div>
+    
+
+    <div style="">
+      <center>
+        <button style="border:0px;background-color:#4285F4;margin-top:1%;
+               height:35px;" type="submit" value="Login">
+          <strong>Submit</strong>
+        </button>
+
+      </center>
+  </form>
+  </div>
+  <div class="column full">
+    <hr>
+  </div>
+  <div class="column full">
+    <p>Created by Kyran Adams and Alex Bluestein, 2018.&nbsp;</p> <a href="https://github.com/kyranstar/MailRoomServer">Github repository here.</a>
+  </div>
+  {% else %}
+  <p>You are not logged in.</p>
+  {% endif %}
+</body>
+
 </html>

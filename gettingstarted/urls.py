@@ -5,7 +5,7 @@ from django.contrib import admin
 admin.autodiscover()
 
 from django.views.generic import TemplateView
-from mailroom.views import UploadDataView, SendEmailsView
+from mailroom.views import UploadDataView, SendEmailsView, CreateTemplateView
 
 # To add a new path, first import the app:
 # import blog
@@ -19,6 +19,7 @@ urlpatterns = [
     path('', TemplateView.as_view(template_name = 'profile.html'), name = 'profile'),
     path('uploaded/', UploadDataView.as_view(), name = 'uploaded'),
     path('submitted/', SendEmailsView.as_view(), name = 'submitted'),
+    path('create_template/', CreateTemplateView.as_view(), name = 'create_template'),
     path("admin/", admin.site.urls),
     path('accounts/', include('django.contrib.auth.urls')),
 ]

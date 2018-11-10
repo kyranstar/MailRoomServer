@@ -20,6 +20,13 @@
 
            <strong>Names failed:</strong> {{unmatched_names}}
            <br>
+           <strong>Email template: </strong>
+           <select name="selected_template">
+             {% for entry in templates %}
+             <option value="{{ entry.id }}">{{ entry.name }}</option>
+             {% endfor %}
+           </select>
+
 
            <div style = "">
               <center>
